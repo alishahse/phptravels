@@ -17,7 +17,7 @@ const GetApp = () => {
     
     {/* 2. Text ============================================================== */}
     <div> 
-        <h2 className="font-bold text-4xl mb-4">Get The App!</h2>
+        <h2 className="font-bold text-2xl mb-2">Get The App!</h2>
         <p className="text-medium opacity-90 leading-relaxed">
             Our app has all your travel needs covered: Secure payment channels, easy 4-step booking process. What more could you ask for?
         </p>

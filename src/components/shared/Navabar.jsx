@@ -70,11 +70,17 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="flex items-start justify-between px-10 bg-white sticky top-5 z-50">
+    <nav className="flex items-start justify-between px-10 bg-white sticky top-1 z-50">
 
        {/*<============================== Left side Nav ========================> */}
       <div className="flex items-center gap-10">
-        <div className="font-bold  cursor-pointer text-xl">PHPTRAVELS</div>
+        <div className="font-bold cursor-pointer text-xl m-1">
+          <img 
+            src="https://phptravels.net/uploads/global/favicon.png" 
+            alt="phptravels-icon" 
+            className="object-contain w-16 h-16" 
+          />
+        </div>
         <ul className="flex gap-5 text-gray-900 text-sm color:#3f3f3f">
          {navLinks.map((item) => (
           <li key={item.name} className="hover:text-blue-500 hover:border-b-2 border-transparent transition-all cursor-pointer py-1">
