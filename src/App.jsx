@@ -8,6 +8,8 @@ import Cars from './Pages/cars/Cars.jsx'
 import Visa from './Pages/visa/Visa.jsx'
 import Blog from './Pages/blog/Blog.jsx'
 import Tours from './Pages/tours/Tours.jsx'
+import FlightResults from "./Pages/flights/FlightResults.jsx";
+import GetApp from './Pages/cars/GetApp.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,14 +20,15 @@ function App() {
       <Navbar />
       <Routes>
         <Route path = '/' element = {<Home />} />
-         <Route path = '/FlightDetails' element = {< FlightDetails/>}/>
-         <Route path = '/Hotel' element = {< Hotel/>}/>
-         <Route path = '/Cars' element = {< Cars/>}/>
-         <Route path = '/Visa' element = {< Visa/>}/>
-         <Route path = '/Blog' element = {< Blog/>}/>
-         <Route path = '/Tours' element = {< Tours/>}/>
-
+          <Route path = '/FlightDetails' element = {< FlightDetails/>}/>
+          <Route path = '/Hotel' element = {< Hotel/>}/>
+          <Route path = '/Cars' element = {< Cars/>}/>
+          <Route path = '/Visa' element = {< Visa/>}/>
+          <Route path = '/Blog' element = {< Blog/>}/>
+          <Route path = '/Tours' element = {< Tours/>}/>
+          <Route path="/flights/:from/:to/:type/:class/:date/:adults/:children/:infants" element={<FlightResults />} />
         </Routes>
+        <GetApp />
     </Router>
       
     </>

@@ -8,7 +8,7 @@ const Hero = () => {
       
       {/* ================= Hero Background & Text Content ==================== */}
       <div
-        className="relative w-full min-h-[450px] md:h-[550px] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center text-center"
+        className="relative w-full min-h-112.5 md:h-137 bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center text-center"
         style={{ backgroundImage: `url(${heroImg})` }}
       >
         {/* ====================== Dark Overlay ========================= */}

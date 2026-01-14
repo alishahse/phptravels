@@ -1,7 +1,9 @@
+import HotelFeature from "./HotelFeature"
+
 const Tours = () => {
      return(
         <>
-         <h1 className="mt-50">Tours Page</h1>
+         <HotelFeature />
         </>
     )
 }
