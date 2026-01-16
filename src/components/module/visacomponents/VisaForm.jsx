@@ -9,7 +9,7 @@ const VisaForm = () => {
                     
                     {/* 1. From Country ==========================================================*/}
                     <div className="lg:col-span-4 group relative">
-                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-xl h-[75px] transition-all focus-within:border-blue-500 bg-white">
+                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-xl h-[18.75] transition-all focus-within:border-blue-500 bg-white">
                             <MapPin className="text-blue-600 shrink-0" size={22} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] uppercase font-bold text-gray-400">From Country</span>
@@ -27,7 +27,7 @@ const VisaForm = () => {
 
                     {/* 2. To Country =================================================================*/}
                     <div className="lg:col-span-4 group relative">
-                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[75px] transition-all focus-within:border-blue-500 bg-white">
+                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[18.75] transition-all focus-within:border-blue-500 bg-white">
                             <MapPin className="text-blue-600 shrink-0" size={22} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] uppercase font-bold text-gray-400">To Country</span>
@@ -46,7 +46,7 @@ const VisaForm = () => {
 
                     {/* 3. Date =============================================================================== */}
                     <div className="lg:col-span-3 group">
-                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[75px] transition-all focus-within:border-blue-500 bg-white">
+                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[18.75] transition-all focus-within:border-blue-500 bg-white">
                             <Calendar className="text-blue-600 shrink-0" size={20} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] uppercase font-bold text-gray-400">Date</span>
@@ -60,8 +60,8 @@ const VisaForm = () => {
 
                     {/* 4. Search Button =======================================================================*/}
                     <div className="lg:col-span-1">
-                        <button className="w-full h-[75px] bg-blue-600 hover:bg-blue-700 text-white rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-95 shrink-0">
-                            <Search size={28} strokeWidth={3} />
+                        <button className="w-full h-[23.75] bg-blue-600 hover:bg-blue-700 text-white rounded-2xl flex items-center justify-center shadow-lg transition-all p-3">
+                            <Search size={35} strokeWidth={3} />
                         </button>
                     </div>
 

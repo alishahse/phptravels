@@ -4,7 +4,7 @@ import Featuredflights from "../components/module/flightCom/Featuredflights";
 import FeatureImages from "./flights/Featureimages";
 import MessageCards from "./cars/MessageCards.jsx";
 import HotelFeature from "./tours/HotelFeature.jsx";
-import Cars from "./cars/Cars.jsx";
+import CarsFeature from "../components/module/cars/CarsFeature.jsx";
 
 const Home = () => {
     
@@ -14,8 +14,9 @@ const Home = () => {
      <Featuredflights />
      <FeatureImages />
      <HotelFeature />
+     <CarsFeature />
      <MessageCards/>
-      <Cars /> 
+     
      
     </>
    )

@@ -61,7 +61,7 @@ const CarsForm = () => {
 
                     {/* Drop-off Section */}
                     <div className="lg:col-span-4 flex gap-2">
-                        <div className="flex-1 p-3 border border-gray-200 rounded-2xl h-[70px]">
+                        <div className="flex-1 p-3 border border-gray-200 rounded-2xl h-[17.5]">
                             <span className="text-[10px] font-bold text-gray-400 flex items-center gap-1">
                                 <Calendar size={12}/> Drop-off Date
                             </span>
@@ -93,8 +93,8 @@ const CarsForm = () => {
                     </div>
 
                     <div className="lg:col-span-1">
-                        <button className="w-full h-[70px] bg-blue-600 hover:bg-blue-700 text-white rounded-2xl flex items-center justify-center shadow-lg active:scale-95 transition-all">
-                            <Search size={28} strokeWidth={3} />
+                        <button className="w-full h-[17.5] bg-blue-600 hover:bg-blue-700 text-white rounded-2xl flex items-center justify-center shadow-lg active:scale-95 transition-all p-3">
+                            <Search size={35} strokeWidth={2} />
                         </button>
                     </div>
 

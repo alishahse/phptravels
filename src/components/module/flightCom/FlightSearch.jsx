@@ -7,7 +7,7 @@ import VisaForm from "../visacomponents/VisaForm";
 
 const FlightSearch = () => {
     const myFlightSearch = [
-        {id: 1, moduleName: "Flights", icon:"", path: './'},
+        {id: 1, moduleName: "Flights", icon:""},
         {id: 2, moduleName: "Hotels", icon:""},
         {id: 3, moduleName: "Tours", icon:""},
         {id: 4, moduleName: "Cars", icon:""},
