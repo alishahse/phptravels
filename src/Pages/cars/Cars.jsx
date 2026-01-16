@@ -1,3 +1,4 @@
+import CarsForm from "../../components/module/cars/CarsForm";
 
 
 const Cars = () => {
@@ -9,15 +10,37 @@ const Cars = () => {
   ];
 
   return (
-    <div className="py-5 px-4 md:px-10 lg:px-28">
+    <>
+ <div className="relative w-full">
+  <div className="relative w-full h-105 md:h-130 overflow-hidden">
+     {/* Image ================================================================ */}
+    <img 
+      src="https://images.unsplash.com/photo-1493238792000-8113da705763?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FyJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww" 
+      alt="cars-image" 
+      className="w-full h-full object-cover" 
+    />
+    {/* Overlay on image ======================================================*/}
+    <div className="absolute inset-0 bg-black/30"></div> 
+    <div className="absolute inset-0 flex flex-col items-center pt-30 px-4">
+        <h1 className="text-white text-xl md:text-3xl font-bold drop-shadow-2xl ">
+            Recommended Transfer Cars
+        </h1>
+    </div>
+  </div>
+  <div className="absolute bottom-30 w-full">
+    <CarsForm />
+  </div>
+</div>
+
+         {/* Cars Cards part Start =======================================================  */}
+     <div className="py-5 px-4 md:px-10 lg:px-28">
       <h2 className="text-2xl font-bold mb-6">Recommended Transfer Cars</h2>
 
       <div className="grid grid-cols-12 gap-6">
         {carFeature.map((item, index) => {
-          // Responsive spans: Mobile 12, Desktop 3
-          const colSpan = "col-span-12 md:col-span-6 lg:col-span-3";
+  
+         const colSpan = "col-span-12 md:col-span-6 lg:col-span-3";
 
-          // AGAR PEHLA CARD HAI (Banner wala)
           if (item.type === "banner") {
             return (
                 
@@ -65,8 +88,11 @@ const Cars = () => {
             </div>
           );
         })}
+        
       </div>
     </div>
+    </>
+     
   );
 };
 

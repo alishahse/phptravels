@@ -6,10 +6,10 @@ const Flight = () => {
     return(
         <>
          {/* =============================== Search Box ============================ */}
-         <div className="max-w-7xl mx-auto px-3 -translate-y-54 relative z-30">
-            <div className="bg-white shadow-2xl rounded-[30px] px-6 py-3 border border-gray-100">
+         <div className="w-full mx-auto px-3 relative z-30 mt-4">
+            <div className="bg-white shadow-2xl rounded-xl px-8 py-3 border border-gray-100 w-full">
                 {/* ======================1. Top Options ============================= */}
-     <div className="flex gap-2 mb-4">
+     <div className="flex gap-4 mb-4">
       <select className="bg-gray-50 border border-gray-200 text-gray-700 text-xs rounded-lg focus:ring-1 focus:ring-blue-500 cursor-pointer px-3 py-1.5 font-medium outline-none">
         <option>One Way</option>
         <option>Round Trip</option>

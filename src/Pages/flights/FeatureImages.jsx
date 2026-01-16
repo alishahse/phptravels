@@ -13,7 +13,7 @@ const FeatureImages = () => {
           {/* Feature Images Start ================================== */}
     <div className="py-8 px-27">
         <div className="px-5">
-            <h1 className="text-lg font-bold">Feature Images</h1>
+            <h1 className="text-lg font-bold">Featured Hotels</h1>
             <p>These alluring destinations are picked just for you.</p>
         </div>
 
