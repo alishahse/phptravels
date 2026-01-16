@@ -8,7 +8,7 @@ const CarsForm = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
                     
                     <div className="lg:col-span-6 group">
-                        <div className="flex items-center gap-3 p-3 border border-gray-200 rounded-2xl h-[75px] transition-all focus-within:border-blue-500 bg-white">
+                        <div className="flex items-center gap-3 p-3 border border-gray-200 rounded-2xl h-[18.75] transition-all focus-within:border-blue-500 bg-white">
                             <Car className=" shrink-0" size={22} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] font-bold text-gray-400">From Airport</span>
@@ -24,7 +24,7 @@ const CarsForm = () => {
                     </div>
 
                     <div className="lg:col-span-6 group">
-                        <div className="flex items-center gap-3 p-3 border border-gray-200 rounded-2xl h-[75px] transition-all focus-within:border-blue-500 bg-white">
+                        <div className="flex items-center gap-3 p-3 border border-gray-200 rounded-2xl h-[18.75] transition-all focus-within:border-blue-500 bg-white">
                             <MapPin className="shrink-0" size={22} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] font-bold text-gray-400">To Location</span>
@@ -42,13 +42,13 @@ const CarsForm = () => {
                     
                     {/* Pick-up Section ======================================================= */}
                     <div className="lg:col-span-4 flex gap-2">
-                        <div className="flex-1 p-3 border border-gray-200 rounded-2xl h-[70px]">
+                        <div className="flex-1 p-3 border border-gray-200 rounded-2xl h-[17.75]">
                             <span className="text-[10px] font-bold text-gray-400 flex items-center gap-1">
                                 <Calendar size={12}/> Pick-up Date
                             </span>
                             <input type="date" className="text-sm font-bold text-gray-900 outline-none w-full bg-transparent mt-1" />
                         </div>
-                        <div className="w-1/3 p-3 border border-gray-200 rounded-2xl h-[70px]">
+                        <div className="w-1/3 p-3 border border-gray-200 rounded-2xl h-[17.75]">
                             <span className="text-[10px]  font-bold text-gray-400 flex items-center gap-1">
                                 <Clock size={12}/> Time
                             </span>
@@ -67,7 +67,7 @@ const CarsForm = () => {
                             </span>
                             <input type="date" className="text-sm font-bold text-gray-900 outline-none w-full bg-transparent mt-1" />
                         </div>
-                        <div className="w-1/3 p-3 border border-gray-200 rounded-2xl h-[70px]">
+                        <div className="w-1/3 p-3 border border-gray-200 rounded-2xl h-[17.75]">
                             <span className="text-[10px] font-bold text-gray-400 flex items-center gap-1">
                                 <Clock size={12}/> Time
                             </span>
@@ -80,7 +80,7 @@ const CarsForm = () => {
 
                     {/* Travellers & Search Button */}
                     <div className="lg:col-span-3">
-                         <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[70px] bg-white">
+                         <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[17.75] bg-white">
                             <Users className="text-blue-600 shrink-0" size={20} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] font-bold text-gray-400">Travellers</span>
