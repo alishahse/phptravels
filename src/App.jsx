@@ -17,6 +17,9 @@ import File from './Pages/slug/File.jsx'
 import Terms from './Pages/slug/Terms.jsx'
 import Faq from './Pages/slug/Faq.jsx'
 import Booking from './Pages/slug/Booking.jsx'
+import HotelSearchResults from './components/module/hotelsCom/HotelSearchResults.jsx'
+import HotelGallery from './Pages/hotels/HotelGallery.jsx'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -33,13 +36,15 @@ function App() {
           <Route path = '/Visa' element = {< Visa/>}/>
           <Route path = '/Blog' element = {< Blog/>}/>
           <Route path = '/Tours' element = {< Tours/>}/>
-          <Route path="/flights/:from/:to/:type/:class/:date/:adults/:children/:infants" element={<FlightResults />} />
+          <Route path="/results" element={<FlightResults />} />
           <Route path='/About' element = {<About />} />
           <Route path='/File' element = {<File />} />
           <Route path='/Privacy' element = {<Privacy />} />
           <Route path='/Terms' element = {<Terms />} />
           <Route path='/Faq' element = {<Faq />} />
           <Route path='/Booking' element = {<Booking />} />
+          <Route path="/HotelSearchResults" element={<HotelSearchResults />} />
+          <Route path='/HotelGallery' element = {<HotelGallery/>} />
         </Routes>
         <GetApp />
         <Footer/>

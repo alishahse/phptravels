@@ -10,7 +10,7 @@ const ToursForm = () => {
                     
                     {/* 1. Destination Dropdown ==============================================*/}
                     <div className="lg:col-span-5 group relative">
-                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[75px] transition-all focus-within:border-blue-500 bg-white">
+                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[18.75] transition-all focus-within:border-blue-500 bg-white">
                             <MapPin className="shrink-0" size={22} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] uppercase font-bold text-gray-400">Search By City</span>
@@ -31,7 +31,7 @@ const ToursForm = () => {
 
                     {/* 2. Tour Date */}
                     <div className="lg:col-span-3 group">
-                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[75px] transition-all focus-within:border-blue-500">
+                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[18.75] transition-all focus-within:border-blue-500">
                             <Calendar className="shrink-0" size={20} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] uppercase font-bold text-gray-400">Date</span>
@@ -45,7 +45,7 @@ const ToursForm = () => {
 
                     {/* 3. Travellers */}
                     <div className="lg:col-span-3 group">
-                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[75px] transition-all focus-within:border-blue-500">
+                        <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl h-[18.75] transition-all focus-within:border-blue-500">
                             <Users className=" shrink-0" size={22} />
                             <div className="flex flex-col w-full">
                                 <span className="text-[10px] uppercase font-bold text-gray-400">Travellers</span>
@@ -63,7 +63,7 @@ const ToursForm = () => {
 
                     {/* 4. Search Button */}
                     <div className="lg:col-span-1">
-                        <button className="w-full h-[75px] bg-blue-600 hover:bg-blue-700 text-white rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-95 shrink-0">
+                        <button className="w-full h-[18.75] bg-blue-600 hover:bg-blue-700 text-white rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-95 shrink-0">
                             <Search size={28} strokeWidth={3} />
                         </button>
                     </div>

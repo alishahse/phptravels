@@ -3,17 +3,16 @@ import { useLocation } from "react-router-dom";
 const FlightResults = () => {
   const location = useLocation();
   
-  // Ye wo data hai jo Search page se 'state' ke zariye bheja gaya
   const searchResults = location.state?.flights || [];
 
   return (
     <div className="max-w-7xl mx-auto p-10">
-      <h2 className="text-2xl font-bold mb-6">Search Results</h2>
+      <h2 className="text-2xl font-bold mb-6 border ">Search Results</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {searchResults.length > 0 ? (
           searchResults.map((flight) => (
-            // Ye card wahi data show karega jo aapne input mein dala tha
+            // it show the data you entered in the input fields in search bar ========================
             <div key={flight.id} className="border p-4 rounded-xl shadow-lg bg-white">
                <div className="flex justify-between font-bold">
                   <span>{flight.from}</span>
@@ -25,7 +24,7 @@ const FlightResults = () => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">Koi flight nahi mili. Dubara search karein!</p>
+          <p className="text-gray-500">Data is not available</p>
         )}
       </div>
     </div>

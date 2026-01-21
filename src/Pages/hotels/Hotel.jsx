@@ -2,7 +2,9 @@ import React from "react"
 import hotelImg from "../../assets/hotel-img.jpg"
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import HotelForm from "../../components/module/hotelsCom/HotelForm";
-import FeatureImages from "../flights/Featureimages";
+import FeatureImages from "../../components/module/hotelsCom/FeatureImages";
+import HotelGallery from "./HotelGallery";
+
 
 const Hotel = () => {
 
@@ -17,17 +19,20 @@ const Hotel = () => {
       }}
     >
 
-      <div className="relative w-full max-w-6xl px-4">
+      <div className="relative w-full max-w-6xl px-4 mt-8">
         {/* Heading ==================================================================*/}
-        <h1 className="text-white text-2xl md:text-3xl font-bold text-center mb-3">
+        <h1 className="text-white text-2xl md:text-3xl font-bold text-center">
           Search For Best Hotels
         </h1>
       </div>
-      <HotelForm />
+     <HotelForm />
     </div>
-     <FeatureImages />
+    <FeatureImages/>
         </>
     )
 }
 
 export default Hotel
+
+
+

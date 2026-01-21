@@ -17,7 +17,7 @@ const Featuredflights = () => {
   const todayDate = "17-01-2026"; 
 
   return (
-    <section className="p-2">
+    <section className="px-2 pt-8">
       <div className="max-w-6xl mx-auto px-8">
         <div className="mb-5">
           <h2 className="text-2xl font-bold text-gray-900">Featured Flights</h2>
