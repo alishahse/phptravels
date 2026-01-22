@@ -50,7 +50,7 @@ const PropertyDescription = () => {
             Mövenpick Grand Al Bustan has been welcoming Booking.com guests since 28 Sept 2006.
           </p>
           <p className="text-sm mt-2 font-semibold text-slate-800">
-            Hotel chain/brand: <span className="text-blue-600 font-normal">Mövenpick</span>
+            Hotel chain/brand: <span className="font-normal">Mövenpick</span>
           </p>
         </div>
       </div>

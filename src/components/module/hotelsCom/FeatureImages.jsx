@@ -45,7 +45,7 @@ const FeatureImages = () => {
                             />
 
                             {isLast && (
-                                <div className="absolute inset-0 bg-gradient-to-t from-blue-700 to-transparent flex flex-col justify-end items-center p-6 text-white text-center">
+                                <div className="absolute inset-0 bg-linear-to-t from-blue-700 to-transparent flex flex-col justify-end items-center p-6 text-white text-center">
                                     <p className="mb-4 font-sm">Discover great deals on hotels around the world</p>
                                     <button className="border-2 border-white px-12 py-1 rounded-md hover:bg-white hover:text-gray-900 transition-all text-lg">
                                         View More

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 const RoomSelection = () => {
   const roomData = [
@@ -94,7 +96,9 @@ const RoomSelection = () => {
                     <td className="p-4 bg-gray-50/50 text-center border-l w-44">
                       <div className="text-[10px] text-gray-400 font-bold mb-1">USD {room.price.toFixed(2)}</div>
                       <button className="bg-blue-600 hover:bg-black text-white text-xs font-bold py-2.5 px-6 rounded shadow-md transition-all active:scale-95">
+                      <Link to="/booking/HotelBooking">
                         Book Now
+                        </Link>
                       </button>
                     </td>
                   </tr>

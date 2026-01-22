@@ -17,8 +17,10 @@ import File from './Pages/slug/File.jsx'
 import Terms from './Pages/slug/Terms.jsx'
 import Faq from './Pages/slug/Faq.jsx'
 import Booking from './Pages/slug/Booking.jsx'
-import HotelSearchResults from './components/module/hotelsCom/HotelSearchResults.jsx'
+import Hotelcard from './components/module/hotelsCom/Hotelcard.jsx'
 import HotelGallery from './Pages/hotels/HotelGallery.jsx'
+import HotelBooking from './Pages/booking/HotelBooking.jsx'
+import BookingConfirmation from './Pages/booking/BookingConfirmation.jsx'
 
 
 function App() {
@@ -43,8 +45,12 @@ function App() {
           <Route path='/Terms' element = {<Terms />} />
           <Route path='/Faq' element = {<Faq />} />
           <Route path='/Booking' element = {<Booking />} />
-          <Route path="/HotelSearchResults" element={<HotelSearchResults />} />
+          <Route path="/Hotelcard" element={<Hotelcard />} />
           <Route path='/HotelGallery' element = {<HotelGallery/>} />
+          <Route path='/booking/HotelBooking' element = {<HotelBooking/>} />
+          <Route path='/booking/BookingConfirmation' element = {<BookingConfirmation/>} />
+          
+
         </Routes>
         <GetApp />
         <Footer/>

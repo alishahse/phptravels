@@ -5,7 +5,6 @@ import RoomSelection from '../../components/module/hotelsCom/RoomSelection';
 import PropertyDescription from '../../components/module/hotelsCom/PropertyDescription';
 import HotelPolicy from '../../components/module/hotelsCom/HotelPolicy';
 
-
 const HotelGallery = () => {
   const location = useLocation();
   const incomingHotel = location.state?.hotel;
@@ -112,43 +111,6 @@ const HotelGallery = () => {
 
         {/* RIGHT: BOOKING =======================================================*/}
         <div className="bg-white border-gray-100 rounded-md p-6 shadow-sm">
-          
-          {/* DATES ================================================================*/}
-          <div className="grid grid-cols-2 gap-3 mb-6">
-            
-            {/* CHECKIN =============================================================*/}
-            <div
-              onClick={() => checkinRef.current?.showPicker()}
-              className="border rounded-lg p-2 cursor-pointer hover:bg-gray-50"
-            >
-              <label className="text-[10px] uppercase text-gray-400 font-bold block mb-1">
-                Checkin
-              </label>
-              <input
-                ref={checkinRef}
-                type="date"
-                defaultValue="2026-01-23"
-                className="w-full text-xs font-semibold bg-transparent outline-none border-none cursor-pointer"
-              />
-            </div>
-
-            {/* CHECKOUT =========================================================*/}
-            <div
-              onClick={() => checkoutRef.current?.showPicker()}
-              className="border rounded-lg p-2 cursor-pointer hover:bg-gray-50"
-            >
-              <label className="text-[10px] uppercase text-gray-400 font-bold block mb-1">
-                Checkout
-              </label>
-              <input
-                ref={checkoutRef}
-                type="date"
-                defaultValue="2026-01-24"
-                className="w-full text-xs font-semibold bg-transparent outline-none border-none cursor-pointer"
-              />
-            </div>
-          </div>
-
           {/* DROPDOWNS =======================================================*/}
           <div className="space-y-4">
             {formOptions.map((item, idx) => (
@@ -195,7 +157,6 @@ const HotelGallery = () => {
        <div className="mt-3">
         <HotelPolicy />
       </div>
-
 
     </div>
     </div>

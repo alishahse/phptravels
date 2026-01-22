@@ -15,7 +15,7 @@ const HotelPolicy = () => {
         </div>
 
         {/* Age Requirement */}
-        <div className="flex flex-row items-center gap-10 pb-4 border-b mb-4">
+        <div className="flex flex-row items-center gap-12 pb-4 border-b mb-4">
           <p className="font-semibold text-black">Age Requirements</p>
           <p className="mx-5">
             The guest checking in must be at least{" "}

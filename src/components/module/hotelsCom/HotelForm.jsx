@@ -1,9 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, Users, Search, Plus, Minus, ChevronDown, Globe } from "lucide-react";
-import CustomDatePicker from "../../../Pages/hotels/CustomDatePicker";
+import {
+  MapPin,
+  Users,
+  Search,
+  Plus,
+  Minus,
+  ChevronDown,
+  Globe,
+} from "lucide-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-// 1. Static City Data
+// ===== Static City Data =====
 const citiesData = [
   { id: 1, name: "Dubai", country: "UAE" },
   { id: 2, name: "Karachi", country: "Pakistan" },
@@ -17,12 +26,12 @@ const citiesData = [
 const HotelForm = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-  const cityRef = useRef(null); 
+  const cityRef = useRef(null);
+  const checkoutRef = useRef(null); // for auto open
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [citySearch, setCitySearch] = useState("");
-  const [showCityList, setShowCityList] = useState(false); 
-  const [selectedCity, setSelectedCity] = useState(null); 
+  const [showCityList, setShowCityList] = useState(false);
 
   const [bookingData, setBookingData] = useState({
     rooms: 1,
@@ -31,10 +40,10 @@ const HotelForm = () => {
     nationality: "Pakistan",
   });
 
-  const [checkin, setCheckin] = useState(new Date());
-  const [checkout, setCheckout] = useState(new Date());
+  const [checkin, setCheckin] = useState(null);
+  const [checkout, setCheckout] = useState(null);
 
-  // Click Outside logic for both dropdowns====================
+  // ===== Click Outside Logic =====
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -48,11 +57,38 @@ const HotelForm = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter cities based on search ============================
-  const filteredCities = citiesData.filter(city => 
+  // ===== Filter Cities =====
+  const filteredCities = citiesData.filter((city) =>
     city.name.toLowerCase().includes(citySearch.toLowerCase())
   );
 
+  // ===== Handle Checkin/Checkout Dates =====
+  const handleCheckinChange = (date) => {
+    setCheckin(date);
+    const nextDay = new Date(date);
+    nextDay.setDate(nextDay.getDate() + 1);
+    setCheckout(nextDay);
+
+    // Auto open checkout picker after a short delay
+    setTimeout(() => {
+      checkoutRef.current.setOpen(true);
+    }, 100);
+  };
+
+  // ===== Update Travelers Count =====
+  const updateCount = (field, action) => {
+    setBookingData((prev) => {
+      let value = prev[field];
+      if (action === "inc") value += 1;
+      if (action === "dec") value -= 1;
+      if (field === "rooms" && value < 1) value = 1;
+      if (field === "adults" && value < 1) value = 1;
+      if (field === "childs" && value < 0) value = 0;
+      return { ...prev, [field]: value };
+    });
+  };
+
+  // ===== Handle Search =====
   const handleSearch = (e) => {
     e.preventDefault();
     if (!citySearch) {
@@ -60,28 +96,45 @@ const HotelForm = () => {
       return;
     }
 
-    // Static Hotel Data to pass =================================
     const staticHotels = [
-      { id: 1, name: "Luxury Palace", location: citySearch, price: "Rs. 45,000", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000" },
-      { id: 2, name: "City View Hotel", location: citySearch, price: "Rs. 25,000", image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1000" }
+      {
+        id: 1,
+        name: "Luxury Palace",
+        location: citySearch,
+        price: "Rs. 45,000",
+        image:
+          "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000",
+      },
+      {
+        id: 2,
+        name: "City View Hotel",
+        location: citySearch,
+        price: "Rs. 25,000",
+        image:
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1000",
+      },
     ];
 
-    navigate("/HotelSearchResults", { 
-      state: { hotels: staticHotels, searchQuery: { city: citySearch, ...bookingData } } 
+    navigate("/Hotelcard", {
+      state: { hotels: staticHotels, searchQuery: { city: citySearch, ...bookingData } },
     });
   };
 
   return (
-    <div className="w-full min-h-[80vh] flex flex-col items-center justify-start pt-5 px-4 relative z-40">
-      <div className="w-full max-w-7xl bg-white shadow-2xl rounded-md p-4 border border-gray-100">
-        <form onSubmit={handleSearch} className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-center">
-          
-          {/* 2. City Search Input with List =========================================== */}
+    <div className="w-full min-h-[15vh] flex flex-col items-center justify-start px-4 mt-3 relative z-40">
+      <div className="w-full max-w-7xl bg-white shadow-md rounded-md p-5 border border-gray-100">
+        <form
+          onSubmit={handleSearch}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-center"
+        >
+          {/* ===== City Input ===== */}
           <div className="lg:col-span-4 relative" ref={cityRef}>
-            <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-md h-[18.75] focus-within:border-blue-500 transition-all">
+            <div className="flex items-center gap-3 p-3 border border-gray-200 rounded-md h-[18.75] focus-within:border-blue-500 transition-all">
               <MapPin className="text-gray-400" size={22} />
               <div className="flex flex-col w-full">
-                <label className="text-[11px] font-bold text-gray-400 tracking-wide">Search By City</label>
+                <label className="text-[11px] font-bold text-gray-400 tracking-wide">
+                  Search By City
+                </label>
                 <input
                   type="text"
                   placeholder="Enter city..."
@@ -93,11 +146,10 @@ const HotelForm = () => {
               </div>
             </div>
 
-            {/* Suggestions List */}
             {showCityList && filteredCities.length > 0 && (
               <div className="absolute top-full left-0 w-full bg-white shadow-2xl rounded-lg mt-1 z-50 border border-gray-100 max-h-60 overflow-y-auto">
-                {filteredCities.map(city => (
-                  <div 
+                {filteredCities.map((city) => (
+                  <div
                     key={city.id}
                     onClick={() => {
                       setCitySearch(city.name);
@@ -115,11 +167,36 @@ const HotelForm = () => {
               </div>
             )}
           </div>
-          
-          <CustomDatePicker label="Checkin" value={checkin} onChange={setCheckin} />
-          <CustomDatePicker label="Checkout" value={checkout} onChange={setCheckout} />
 
-          {/* Travelers Dropdown */}
+          {/* ===== Checkin Date ===== */}
+          <div className="lg:col-span-2">
+            <div className="flex flex-col w-full">
+              <DatePicker
+                selected={checkin}
+                onChange={handleCheckinChange}
+                minDate={new Date()}
+                className="w-full p-5 border border-gray-200 rounded-md outline-none text-gray-900"
+                placeholderText="Select checkin"
+                
+              />
+            </div>
+          </div>
+
+          {/* ===== Checkout Date ===== */}
+          <div className="lg:col-span-2">
+            <div className="flex flex-col w-full">
+              <DatePicker
+                selected={checkout}
+                onChange={(date) => setCheckout(date)}
+                minDate={checkin ? new Date(checkin.getTime() + 24 * 60 * 60 * 1000) : new Date()}
+                className="w-full p-5 border border-gray-200 rounded-md outline-none text-gray-900 bg-gray-50"
+                placeholderText="Select checkout"
+                ref={checkoutRef}
+              />
+            </div>
+          </div>
+
+          {/* ===== Travelers Dropdown ===== */}
           <div className="lg:col-span-3 relative" ref={dropdownRef}>
             <div
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -136,7 +213,10 @@ const HotelForm = () => {
                   </span>
                 </div>
               </div>
-              <ChevronDown size={16} className={`text-gray-400 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
+              <ChevronDown
+                size={16}
+                className={`text-gray-400 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+              />
             </div>
 
             {isDropdownOpen && (
@@ -144,9 +224,8 @@ const HotelForm = () => {
                 <CounterRow label="Rooms" count={bookingData.rooms} onDec={() => updateCount("rooms", "dec")} onInc={() => updateCount("rooms", "inc")} />
                 <CounterRow label="Adults" count={bookingData.adults} onDec={() => updateCount("adults", "dec")} onInc={() => updateCount("adults", "inc")} />
                 <CounterRow label="Childs" count={bookingData.childs} onDec={() => updateCount("childs", "dec")} onInc={() => updateCount("childs", "inc")} />
-                
                 <div className="mt-4 pt-4 border-t border-gray-100">
-                  <label className="text-[10px] font-bold text-gray-400 block mb-2 ">Nationality</label>
+                  <label className="text-[10px] font-bold text-gray-400 block mb-2">Nationality</label>
                   <div className="relative">
                     <select
                       value={bookingData.nationality}
@@ -165,7 +244,7 @@ const HotelForm = () => {
           </div>
 
           <div className="lg:col-span-1">
-            <button type="submit" className="w-full h-[62px] bg-blue-600 hover:bg-black text-white rounded-md flex items-center justify-center shadow-lg active:scale-95 transition-all">
+            <button type="submit" className="w-full h-15.5 bg-blue-600 hover:bg-black text-white rounded-md flex items-center justify-center shadow-lg active:scale-95 transition-all">
               <Search size={20} strokeWidth={3} />
             </button>
           </div>
@@ -179,9 +258,13 @@ const CounterRow = ({ label, count, onDec, onInc }) => (
   <div className="flex justify-between items-center mb-4 last:mb-0">
     <span className="font-bold text-gray-700 text-sm">{label}</span>
     <div className="flex items-center gap-3">
-      <button type="button" onClick={onDec} className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors"><Minus size={14} /></button>
+      <button type="button" onClick={onDec} className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors">
+        <Minus size={14} />
+      </button>
       <span className="w-4 text-center font-bold text-gray-900 text-sm">{count}</span>
-      <button type="button" onClick={onInc} className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors"><Plus size={14} /></button>
+      <button type="button" onClick={onInc} className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors">
+        <Plus size={14} />
+      </button>
     </div>
   </div>
 );
