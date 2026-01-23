@@ -1,426 +1,216 @@
 import React, { useState, useRef, useEffect } from "react";
-
-import {
-  Calendar,
-  Users,
-  Search,
-  Plus,
-  Minus,
-  ChevronDown,
-} from "lucide-react";
-
+import { Users, Search, Plus, Minus, ChevronDown, PlaneTakeoff, PlaneLanding, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// static array object ============================================
+const hideCalendarStyles = `
+  .custom-date-input::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+`;
 
 const airportsData = [
-  {
-    id: 1,
-    code: "KHI",
-    name: "Jinnah International Airport",
-    city: "Karachi",
-    country: "Pakistan",
-  },
-
-  {
-    id: 2,
-    code: "LHE",
-    name: "Allama Iqbal International Airport",
-    city: "Lahore",
-    country: "Pakistan",
-  },
-
-  {
-    id: 3,
-    code: "ISB",
-    name: "Islamabad International Airport",
-    city: "Islamabad",
-    country: "Pakistan",
-  },
-
-  {
-    id: 4,
-    code: "DXB",
-    name: "Dubai International Airport",
-    city: "Dubai",
-    country: "UAE",
-  },
-
-  {
-    id: 5,
-    code: "SHJ",
-    name: "Sharjah International Airport",
-    city: "Sharjah",
-    country: "UAE",
-  },
-
-  {
-    id: 6,
-    code: "DEL",
-    name: "Indira Gandhi International Airport",
-    city: "Delhi",
-    country: "India",
-  },
-
-  {
-    id: 7,
-    code: "BOM",
-    name: "Chhatrapati Shivaji Airport",
-    city: "Mumbai",
-    country: "India",
-  },
-
-  {
-    id: 8,
-    code: "LHR",
-    name: "Heathrow Airport",
-    city: "London",
-    country: "United Kingdom",
-  },
-
-  {
-    id: 9,
-    code: "JFK",
-    name: "John F. Kennedy International Airport",
-    city: "New York",
-    country: "USA",
-  },
-
-  {
-    id: 10,
-    code: "YYZ",
-    name: "Toronto Pearson International Airport",
-    city: "Toronto",
-    country: "Canada",
-  },
-
-  {
-    id: 11,
-    code: "CDG",
-    name: "Charles de Gaulle Airport",
-    city: "Paris",
-    country: "France",
-  },
-
-  {
-    id: 12,
-    code: "FRA",
-    name: "Frankfurt Airport",
-    city: "Frankfurt",
-    country: "Germany",
-  },
-
-  {
-    id: 13,
-    code: "IST",
-    name: "Istanbul Airport",
-    city: "Istanbul",
-    country: "Turkey",
-  },
-
-  {
-    id: 14,
-    code: "SIN",
-    name: "Changi Airport",
-    city: "Singapore",
-    country: "Singapore",
-  },
-
-  {
-    id: 15,
-    code: "HND",
-    name: "Haneda Airport",
-    city: "Tokyo",
-    country: "Japan",
-  },
+  { id: 1, code: "KHI", city: "KHI -jina International Airport", country: "Pakistan" },
+  { id: 2, code: "LHE", city: "LHE -Allama Iqbal International Airport", country: "Pakistan" },
+  { id: 3, code: "ISB", city: "ISB -New Islamabad International Airport", country: "Pakistan" },
+  { id: 4, code: "DXB", city: "DXB -Dubai International Airport", country: "UAE" },
 ];
-
-// Flight main Function ==========================================
 
 const Flight = () => {
   const navigate = useNavigate();
-
   const dropdownRef = useRef(null);
+  const departInputRef = useRef(null);
+  const returnInputRef = useRef(null);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const [activeSearch, setActiveSearch] = useState(null);
+  
   const [formData, setFormData] = useState({
     from: "",
-
     destination: "",
-
-    Date: "2006-01-20",
-
+    Date: "26-01-2026",
     returnDate: "",
-
-    class: "economy",
-
-    flightType: "one-way",
-
-    travelers: { adults: 1, child: 0, infants: 0 }, // Default 1 Adult
+    class: "Economy",
+    flightType: "return",
+    travelers: { adults: 1, child: 0, infants: 0 },
   });
 
-  // For Close the Dropdwon ========================================
+  const [fromSearch, setFromSearch] = useState("");
+  const [toSearch, setToSearch] = useState("");
+
+  const filteredAirports = (searchTerm) => {
+    return airportsData.filter(item => 
+      item.city.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      item.code.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
+      if (!event.target.closest(".search-container")) setActiveSearch(null);
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) setIsDropdownOpen(false);
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData({ ...formData, [name]: value });
-  };
-
-  // Travelers Update Function =================================================
-
-  const updateTravelers = (type, operation) => {
-    setFormData((prev) => {
-      let currentVal = prev.travelers[type];
-
-      let newVal = operation === "inc" ? currentVal + 1 : currentVal - 1;
-
-      // Rules for adults minimum is 1 =================================
-
-      if (type === "adults" && newVal < 1) newVal = 1;
-
-      if (newVal < 0) newVal = 0;
-
-      return {
-        ...prev,
-
-        travelers: { ...prev.travelers, [type]: newVal },
-      };
-    });
-  };
-
-  const totalTravelers = Object.values(formData.travelers).reduce(
-    (a, b) => a + b,
-    0,
-  );
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!formData.from || !formData.destination) {
-      alert("Please select both 'From' and 'Destination'");
-      return;
+  const openCalendar = (ref) => {
+    if (ref.current) {
+      try { ref.current.showPicker(); } catch (e) { ref.current.click(); }
     }
-
-    // we are send the static data ==========================
-    const flightsToPass = [
-      {
-        id: 1,
-        from: formData.from,
-        to: formData.destination,
-        airline: "PIA",
-        price: "Rs. 35,000",
-        date: formData.Date,
-      },
-      {
-        id: 2,
-        from: formData.from,
-        to: formData.destination,
-        airline: "Air Sial",
-        price: "Rs. 28,000",
-        date: formData.Date,
-      },
-    ];
-
-    // use the navigate hook here to send the data from it to searchResults page ====================
-    navigate("/results", {
-      state: { flights: flightsToPass },
-    });
   };
+
+  const handleDepartDateChange = (e) => {
+    const selectedDate = e.target.value;
+    const dateObj = new Date(selectedDate);
+    dateObj.setDate(dateObj.getDate() + 1);
+    const nextDay = dateObj.toISOString().split('T')[0];
+
+    setFormData({ ...formData, Date: selectedDate, returnDate: nextDay, flightType: "return" });
+
+    // Direct open return calendar
+    setTimeout(() => {
+      if (returnInputRef.current) openCalendar(returnInputRef);
+    }, 100);
+  };
+
+  const updateCount = (type, op) => {
+    setFormData(prev => ({
+      ...prev,
+      travelers: {
+        ...prev.travelers,
+        [type]: op === 'inc' ? prev.travelers[type] + 1 : Math.max(0, prev.travelers[type] -1)
+      }
+    }));
+  };
+
+  const totalTravelers = Object.values(formData.travelers).reduce((a, b) => a + b, 0);
 
   return (
-    <div className=" mx-auto relative z-30 mt-3 font-sans">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-2xl rounded-xl px-3 py-5 border border-gray-100"
-      >
-        {/* Top Options ================================================= */}
-
-        <div className="flex gap-1 mb-2">
-          <select
-            className="bg-transparent text-xs px-4 py-1 font-bold outline-none text-gray-700 border border-gray-300 rounded-sm"
-            name="flightType"
+    <div className="mx-auto relative z-30 mt-10 font-sans max-w-7xl px-4">
+      <style>{hideCalendarStyles}</style>
+      <form className="bg-white shadow-2xl rounded-2xl p-4 border border-gray-100">
+        
+        {/* Top Selectors */}
+        <div className="flex gap-1 mb-1">
+          <select 
+            className="text-sm font-bold border border-gray-200 rounded-md px-5 outline-none text-gray-800"
             value={formData.flightType}
-            onChange={handleInputChange}
+            onChange={(e) => setFormData({...formData, flightType: e.target.value})}
           >
             <option value="one-way">One Way</option>
-
             <option value="return">Return</option>
           </select>
-
-          <select
-            className="bg-transparent text-xs px-4 py-1 font-bold outline-none text-gray-700 border border-gray-300 rounded-sm"
-            name="class"
+          <select 
+            className="text-sm font-bold border border-gray-200 rounded-md px-5 py-2 outline-none text-gray-800"
             value={formData.class}
-            onChange={handleInputChange}
+            onChange={(e) => setFormData({...formData, class: e.target.value})}
           >
-            <option value="economy">Economy</option>
-
-            <option value="business">Business</option>
+            <option value="Economy">Economy</option>
+            <option value="Business">Business</option>
           </select>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-1">
-          {/* Flying From ==================================================*/}
-
-          <div className="flex-1 w-full p-2 border border-gray-200 rounded-md flex items-center ">
-            <div className="flex flex-col">
-              <label className="text-xs text-gray-500 font-semibold">
-                Flying From
-              </label>
-
-              <select
-                name="from"
-                className="outline-none text-xs font-bold text-gray-800"
-                value={formData.from}
-                onChange={handleInputChange}
-              >
-                <option value=" ">Select city</option>
-
-                {airportsData.map((a) => (
-                  <option key={a.id}>
-                    {a.code} {a.city} {a.country}
-                  </option>
-                ))}
-              </select>
+        <div className="flex flex-col lg:flex-row items-center gap-2 bg-white rounded-md">
+          
+          {/* Flying From */}
+          <div className="flex-1 w-full relative search-container border border-gray-200 rounded-md p-2 flex items-center hover:border-blue-500 gap-2">
+            <PlaneTakeoff className="text-gray-700" size={14} />
+            <div className="flex-1">
+              <label className="text-[11px] text-gray-500 block tracking-wider">Flying From</label>
+              <input 
+                type="text"
+                className="w-full outline-none text-sm font-bold text-gray-900 placeholder-gray-900"
+                placeholder="Origin City"
+                value={fromSearch}
+                onFocus={() => setActiveSearch('from')}
+                onChange={(e) => setFromSearch(e.target.value)}
+              />
             </div>
+            {activeSearch === 'from' && (
+              <div className="absolute top-full left-0 w-full bg-white shadow-xl rounded-md z-50 mt-1 overflow-hidden">
+                {filteredAirports(fromSearch).map(a => (
+                  <div key={a.id} className="p-3 hover:bg-blue-50 cursor-pointer text-xs font-bold " onClick={() => {setFromSearch(a.city); setActiveSearch(null);}}>
+                   {a.city}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Destination =================================================== */}
-
-          <div className="flex-1 w-full p-2 border border-gray-200 rounded-md flex items-center gap-3">
-            <div className="flex flex-col flex-1">
-              <label className="text-xs text-gray-500 font-semibold">
-                Destination To
-              </label>
-
-              <select
-                name="destination"
-                className="outline-none text-xs font-bold text-gray-800"
-                value={formData.destination}
-                onChange={handleInputChange}
-              >
-                <option value="">Select city</option>
-
-                {airportsData.map((a) => (
-                  <option key={a.id}>
-                    {a.code} {a.city} {a.country}
-                  </option>
-                ))}
-              </select>
+          {/* Destination */}
+          <div className="flex-1 w-full relative search-container border border-gray-200 hover:border-blue-500 rounded-md p-2 flex items-center gap-2">
+            <PlaneLanding className="text-gray-600" size={14} />
+            <div className="flex-1">
+              <label className="text-[11px] text-gray-500 block tracking-wider">Destination To</label>
+              <input 
+                type="text"
+                className="w-full outline-none text-sm font-bold text-gray-900 placeholder-gray-900"
+                placeholder="Destination City"
+                value={toSearch}
+                onFocus={() => setActiveSearch('to')}
+                onChange={(e) => setToSearch(e.target.value)}
+              />
             </div>
+            {activeSearch === 'to' && (
+              <div className="absolute top-full left-0 w-full bg-white shadow-2xl rounded-md z-50 mt-1 overflow-hidden ">
+                {filteredAirports(toSearch).map(a => (
+                  <div key={a.id} className="p-3 hover:bg-blue-50 cursor-pointer text-xs font-bold" onClick={() => {setToSearch(a.city); setActiveSearch(null);}}>
+                    {a.city}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Date ==========================================================*/}
-
-          {/* Date Section ==========================================================*/}
-          <div className="flex-2 w-full flex flex-col lg:flex-row gap-2">
-            {/* Depart Date is show always ====================================*/}
-            <div className="flex-1 p-2 border border-gray-200 rounded-md flex items-center gap-3">
-              <div className="flex flex-col w-full">
-                <label className="text-xs text-gray-500 font-sm">
-                  Depart Date
-                </label>
-                <input
-                  type="date"
-                  name="Date"
-                  value={formData.Date}
-                  onChange={handleInputChange}
-                  className="outline-none font-bold text-gray-800 text-xs bg-transparent cursor-pointer w-full"
-                />
+          {/* Dates */}
+          <div className="flex-1 flex gap-2 w-full">
+            <div onClick={() => openCalendar(departInputRef)} className="flex-1 p-1 border border-gray-200 hover:border-blue-500 rounded-md cursor-pointer flex items-center gap-2">
+              <Calendar className="text-gray-600" size={15} />
+              <div>
+                <label className="text-[10px] text-gray-500">Depart Date</label>
+                <input ref={departInputRef} type="date" value={formData.Date} onChange={handleDepartDateChange} className="custom-date-input w-full outline-none font-bold text-xs cursor-pointer" />
               </div>
             </div>
-
-            {/* Return is ever when selected =====================================  */}
-            {formData.flightType === "return" && (
-              <div className="flex-1 p-2 border border-gray-200 rounded-md flex items-center gap-3 animate-in fade-in slide-in-from-left-2 duration-300">
-                <div className="flex flex-col w-full">
-                  <label className="text-xs text-gray-500 font-sm">
-                    Return Date
-                  </label>
-                  <input
-                    type="date"
-                    name="returnDate"
-                    value={formData.returnDate}
-                    onChange={handleInputChange}
-                    className="outline-none font-bold text-gray-800 text-xs bg-transparent cursor-pointer w-full"
-                  />
+            {formData.flightType === 'return' && (
+              <div onClick={() => openCalendar(returnInputRef)} className="flex-1 p-1 border border-gray-200 rounded-md cursor-pointer flex items-center gap-2 hover:border-blue-500 ">
+                <Calendar className="text-gray-600" size={15} />
+                <div>
+                  <label className="text-[10px] text-gray-500 font-bold">Return Date</label>
+                  <input ref={returnInputRef} type="date" value={formData.returnDate} onChange={(e) => setFormData({...formData, returnDate: e.target.value})} className="custom-date-input w-full outline-none font-bold text-xs cursor-pointer" />
                 </div>
               </div>
             )}
           </div>
 
-          {/* Travelers Dropdown ==============================================*/}
-
+          {/* Travelers Dropdown */}
           <div className="flex-1 w-full relative" ref={dropdownRef}>
-            <div
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="border border-gray-200 rounded-md py-4.5  px-2 flex items-center justify-between cursor-pointer bg-white"
+            <div 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
+              className="border border-gray-200 rounded-md p-1 flex items-center justify-between cursor-pointer hover:border-blue-500 hover:bg-gray-50 h-15.5"
             >
               <div className="flex items-center gap-3">
-                <Users className="text-gray-400" size={18} />
-
+                <Users className="text-gray-600" size={14} />
                 <div className="flex flex-col">
-                  <span className="font-bold text-gray-800 text-xs">
-                    {totalTravelers} Travellers
-                  </span>
+                   <label className="text-[11px] text-gray-400 font-bold ">Travellers</label>
+                   <span className="font-bold text-sm text-gray-800">{totalTravelers} Travellers</span>
                 </div>
               </div>
-
-              <ChevronDown
-                size={16}
-                className={`text-gray-400 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
-              />
+              <ChevronDown size={18} className={`text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
             </div>
 
             {isDropdownOpen && (
-              <div className="absolute top-[110%] right-0 w-72 bg-white shadow-2xl rounded-2xl p-3 z-50 border border-gray-50">
-                <TravelerRow
-                  label="Adults"
-                  sub="+12 Year"
-                  count={formData.travelers.adults}
-                  type="adults"
-                  onUpdate={updateTravelers}
-                />
-
-                <TravelerRow
-                  label="Childs"
-                  sub="2 - 11 Year"
-                  count={formData.travelers.child}
-                  type="child"
-                  onUpdate={updateTravelers}
-                />
-
-                <TravelerRow
-                  label="Infants"
-                  sub="-2 Year"
-                  count={formData.travelers.infants}
-                  type="infants"
-                  onUpdate={updateTravelers}
-                />
+              <div className="absolute top-[110%] right-0 w-72 bg-white shadow-2xl rounded-2xl p-5 z-50 border border-gray-100 ring-1 ring-black ring-opacity-5">
+                <TravelerRow label="Adults" sub="+12 Year" count={formData.travelers.adults} onInc={() => updateCount('adults', 'inc')} onDec={() => updateCount('adults', 'dec')} />
+                <div className="h-[1px] bg-gray-100 my-3"></div>
+                <TravelerRow label="Childs" sub="2 - 11 Year" count={formData.travelers.child} onInc={() => updateCount('child', 'inc')} onDec={() => updateCount('child', 'dec')} />
+                <div className="h-[1px] bg-gray-100 my-3"></div>
+                <TravelerRow label="Infants" sub="-2 Year" count={formData.travelers.infants} onInc={() => updateCount('infants', 'inc')} onDec={() => updateCount('infants', 'dec')} />
               </div>
             )}
           </div>
 
-          {/* Search Button ====================================================== */}
-
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white p-5 rounded-2xl transition-all shadow-lg active:scale-95"
-          >
+          <button type="submit" className="bg-blue-600 text-white p-5 rounded-xl hover:bg-blue-700 shadow-lg transition-all active:scale-95">
             <Search size={24} strokeWidth={3} />
           </button>
         </div>
@@ -429,35 +219,27 @@ const Flight = () => {
   );
 };
 
-// Reusable Row Component Travler ================================
-
-const TravelerRow = ({ label, sub, count, type, onUpdate }) => (
-  <div className="flex justify-between items-center mb-4 last:mb-0">
+// Traveler Row Component
+const TravelerRow = ({ label, sub, count, onInc, onDec }) => (
+  <div className="flex justify-between items-center">
     <div className="flex flex-col">
-      <span className="font-bold text-gray-800 text-sm">{label}</span>
-
-      <span className="text-[10px] text-gray-400 uppercase font-semibold">
-        {sub}
-      </span>
+      <span className="font-bold text-gray-800 text-sm">{label} <span className="text-[12px] text-gray-800 font-normal ml-1">{sub}</span></span>
     </div>
-
-    <div className="flex items-center gap-3">
-      <button
-        type="button"
-        onClick={() => onUpdate(type, "dec")}
-        className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 text-gray-600 disabled:opacity-20"
+    <div className="flex items-center gap-4">
+      <button 
+        type="button" 
+        onClick={onDec} 
+        className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors"
       >
-        <Minus size={14} />
+        <Minus size={16} />
       </button>
-
-      <span className="w-5 text-center font-bold text-gray-800">{count}</span>
-
-      <button
-        type="button"
-        onClick={() => onUpdate(type, "inc")}
-        className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 text-gray-600"
+      <span className="w-4 text-center font-bold text-sm text-gray-800">{count}</span>
+      <button 
+        type="button" 
+        onClick={onInc} 
+        className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors"
       >
-        <Plus size={14} />
+        <Plus size={16} />
       </button>
     </div>
   </div>

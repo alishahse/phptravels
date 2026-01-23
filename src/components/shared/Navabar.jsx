@@ -1,225 +1,158 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { HiChevronDown } from "react-icons/hi";
 
-import { 
-  FaPlane, FaHotel, FaSuitcase, FaCar, FaIdCard, 
-  FaSearch, FaExchangeAlt, FaCalendarAlt, FaUserFriends 
-} from 'react-icons/fa';
-
-
-// ============================ Links =============================
-const navLinks = [
-  { name: 'Flights', path: '/' },
-  { name: 'Hotels', path: '/hotel' },
-  { name: 'Tours', path: '/tours' },
-  { name: 'Cars', path: '/cars' },
-  { name: 'Visa', path: '/visa' },
-  { name: 'Blog', path: '/blog' },
+const currencies = [
+  { code: "USD", name: "United States", flag: "us" },
+  { code: "GBP", name: "United Kingdom", flag: "gb" },
+  { code: "SAR", name: "Saudi Arabia", flag: "sa" },
+  { code: "EUR", name: "Germany", flag: "de" },
+  { code: "PHP", name: "Philippines", flag: "ph" },
 ];
 
-// <========================= Currency helper ========================>
-const CurrencyItem = ({ flag, code, name }) => (
-  <div className="flex items-center gap-3 p-3 hover:bg-gray-100 cursor-pointer rounded-xl">
-    <span className="text-sm">{flag}</span>
-    <span className="text-xs font-bold w-10">{code}</span>
-    <span className="text-xs text-gray-400">- {name}</span>
-  </div>
-);
-
 const Navbar = () => {
-  const countries = [
-    { name: "English", code: "us" },
-    { name: "Arabic", code: "sa" },
-    { name: "Turkish", code: "tr" },
-    { name: "Russian", code: "ru" },
-    { name: "French", code: "fr" },
-    { name: "Chinese", code: "cn" },
-    { name: "German", code: "de" }
-    
-  ];
-
-  const currencies = [
-    { name: "United States", code: "USD", flag: "🇺🇸" },
-    { name: "United Kingdom", code: "GBP", flag: "🇬🇧" },
-    { name: "Saudi Arabia", code: "SAR", flag: "🇸🇦" },
-    { name: "Germany", code: "EUR", flag: "🇩🇪" },
-  ];
-
   const [openDropdown, setOpenDropdown] = useState(null);
-  const [selectedLang, setSelectedLang] = useState(countries[0]);
-  const [selectedCurrency, setSelectedCurrency] = useState(currencies[0]);
   const dropdownRef = useRef(null);
+  const [selectedCurrency, setSelectedCurrency] = useState(currencies[0]);
 
+  const languages = [
+    { name: "English", code: "us", id: "en" },
+    { name: "Arabic", code: "sa", id: "ar" },
+    { name: "Turkish", code: "tr", id: "tr" },
+    { name: "Russian", code: "ru", id: "ru" },
+    { name: "French", code: "fr", id: "fr" },
+    { name: "Chinese", code: "cn", id: "zh" },
+    { name: "Germany", code: "de", id: "de" },
+  ];
 
+  const [selectedLang, setSelectedLang] = useState(languages[0]);
+
+  const navLinks = [
+    { name: "Flights", path: "/" },
+    { name: "Hotels", path: "/hotels" },
+    { name: "Tours", path: "/tours" },
+    { name: "Cars", path: "/cars" },
+    { name: "Visa", path: "/visa" },
+    { name: "Blogs", path: "/blog" },
+  ];
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenDropdown(null); 
+        setOpenDropdown(null);
       }
     };
-
-    document.addEventListener('click', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  return (
-    <nav className="flex items-start justify-between px-10 bg-white sticky top-1 z-50">
+  // Shared User Icon SVG
+  const UserIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+      <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+    </svg>
+  );
 
-       {/*<============================== Left side Nav ========================> */}
-      <div className="flex items-center gap-10">
-        <div className="font-bold cursor-pointer text-xl m-1">
-          <img 
-            src="https://phptravels.net/uploads/global/favicon.png" 
-            alt="phptravels-icon" 
-            className="object-contain w-16 h-16" 
-          />
-        </div>
-        <ul className="flex gap-5 text-gray-900 text-sm color:#3f3f3f">
-         {navLinks.map((item) => (
-          <li key={item.name} className="hover:text-blue-500 hover:border-b-2 border-transparent transition-all cursor-pointer py-1">
-            <Link to={item.path}>{item.name}</Link>
+  return (
+    <nav className="flex items-center justify-around px-4 py-5 bg-white sticky top-0 z-[100] border-b border-gray-100 shadow-sm">
+      {/* Left Side: Logo & Nav */}
+      <div className="flex items-center gap-6">
+        <Link to="/">
+          <img src="src/assets/logo.png" alt="logo" className="h-10 object-contain max-w-35.5" />
+        </Link>
+      <ul className="flex items-center gap-4">
+  {navLinks.map((item) => (
+    <li key={item.name} className="relative group">
+      <Link
+        to={item.path}
+        className="text-[14px] font-normal text-black transition-colors group-hover:text-blue-600"
+      >
+        {item.name}
+      </Link>
+
+      {/* Bottom border */}
+      <span className="absolute left-0 -bottom-[29px] h-[3px] w-0 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
     </li>
   ))}
-        </ul>
+</ul>
+
       </div>
 
-      {/*<============================== Right side Nav ========================> */}
-      <div className="flex items-center gap-3 p-2" ref={dropdownRef}>
-
-        {/*<============================== Language Dropdwon ========================> */}
+      {/* Right Side: Dropdowns */}
+      <div className="flex items-center gap-1" ref={dropdownRef}>
+        
+        {/* Language */}
         <div className="relative">
           <button
-            onClick={() =>
-              setOpenDropdown(openDropdown === 'lang' ? null : 'lang')
-            }
-            className="flex items-center gap-2 px-4 py-2 border rounded-full border-gray-300 text-sm hover:bg-gray-200"
+            onClick={() => setOpenDropdown(openDropdown === "lang" ? null : "lang")}
+            className="flex items-center gap-1.5 px-4 py-1.5 border border-gray-200 rounded-full text-[14px] text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-all min-w-[110px]"
           >
-            <img
-              src={`https://flagcdn.com/w20/${selectedLang.code}.png`}
-              alt={selectedLang.name}
-              className="w-4 h-4 object-cover"
-            />
+            <img src={`https://flagcdn.com/w20/${selectedLang.code}.png`} alt="" className="w-4.5 h-3.5 object-cover rounded-[1px]" />
             {selectedLang.name}
-            <ChevronDownIcon className="w-3 h-3 text-gray-600" />
+            <HiChevronDown className={`text-black transition-transform ${openDropdown === "lang" ? "rotate-180" : ""}`} />
           </button>
-
-          {openDropdown === 'lang' && (
-            <div className="absolute top-full right-0 mt-2 w-48 bg-white border shadow-2xl rounded-2xl overflow-hidden z-50 p-2">
-              {countries.map(c => (
-                <div
-                  key={c.code}
-                  className="flex items-center gap-3 p-2 hover:bg-gray-100 cursor-pointer rounded-xl"
-                  onClick={() => {
-                     setSelectedLang(c);
-                     i18n.changeLanguage(c.code);      // ===== This Line For Language Converting ======
-                     setOpenDropdown(null);
-                    }}
-                >
-                  <img
-                    src={`https://flagcdn.com/w20/${c.code}.png`}
-                    alt={c.name}
-                    className="w-4 h-4 object-cover"
-                  />
-                  <span className="text-sm text-gray-700">{c.name}</span>
-                </div>
+          {openDropdown === "lang" && (
+            <div className="absolute top-[120%] left-0 w-[140px] bg-white shadow-2xl rounded-2xl border border-gray-100 py-2 z-50">
+              {languages.map((lang) => (
+                <button key={lang.id} onClick={() => { setSelectedLang(lang); setOpenDropdown(null); }} className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 text-[13px] text-gray-700">
+                  <img src={`https://flagcdn.com/w20/${lang.code}.png`} className="w-4 h-3" alt="" /> {lang.name}
+                </button>
               ))}
             </div>
           )}
         </div>
 
-        {/*<============================== Currency Dropdown ========================> */}
+        {/* Currency */}
         <div className="relative">
           <button
-            onClick={() =>
-              setOpenDropdown(openDropdown === 'currency' ? null : 'currency')
-            }
-            className="flex px-4 py-2 border rounded-full border-gray-300 text-sm hover:bg-gray-200 "
+            onClick={() => setOpenDropdown(openDropdown === "currency" ? null : "currency")}
+            className="flex items-center gap-1 px-4 py-1.5 border border-gray-200 rounded-full text-[14px] text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-all "
           >
-            <span className='mr-1'>{selectedCurrency.code}</span> <ChevronDownIcon className="w-3 h-5 text-gray-600"/>
+            {selectedCurrency.code}
+            <HiChevronDown className={`text-gray-400 transition-transform ${openDropdown === "currency" ? "rotate-180" : ""}`} />
           </button>
-
-          {openDropdown === 'currency' && (
-            <div className="absolute top-full right-0 mt-2 w-64 bg-white border shadow-2xl rounded-2xl overflow-hidden z-50 p-2">
-              {currencies.map(c => (
-                <div
-                  key={c.code}
-                  onClick={() => {
-                    setSelectedCurrency(c);
-                    setOpenDropdown(null);
-                  }}
-                >
-                  <CurrencyItem {...c} />
-                </div>
+          {openDropdown === "currency" && (
+            <div className="absolute top-[120%] right-0 w-[200px] bg-white shadow-2xl rounded-2xl border border-gray-100 py-2 z-50">
+              {currencies.map((curr) => (
+                <button key={curr.code} onClick={() => { setSelectedCurrency(curr); setOpenDropdown(null); }} className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 text-left">
+                  <img src={`https://flagcdn.com/w20/${curr.flag}.png`} className="w-4 h-3" alt="" />
+                  <span className="text-[15px] uppercase">{curr.code}</span>
+                  <span className="text-[11px] text-gray-800">- {curr.name}</span>
+                </button>
               ))}
             </div>
           )}
         </div>
 
-        {/*<============================== Agents Dropdown ========================> */}
+        {/* Agents */}
         <div className="relative">
-          <button
-            onClick={() =>
-              setOpenDropdown(openDropdown === 'agents' ? null : 'agents')
-            }
-            className="flex items-center gap-2 px-4 py-2 border rounded-full border-gray-300 text-sm hover:bg-gray-200 transition"
+          <button 
+            onClick={() => setOpenDropdown(openDropdown === "agents" ? null : "agents")}
+            className="flex items-center gap-1 px-4 py-1.5 border border-gray-200 rounded-full text-[14px] text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-all"
           >
-            👤 Agents <ChevronDownIcon className="w-3 h-3 text-gray-600" />
+            <UserIcon /> Agents <HiChevronDown className="text-gray-400" />
           </button>
-
-          {openDropdown === 'agents' && (
-            <div className="absolute top-full right-0 mt-2 w-44 bg-white border border-gray-100 shadow-xl rounded-xl overflow-hidden py-1">
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm hover:bg-gray-50"
-                onClick={() => setOpenDropdown(null)}
-              >
-                Agent Login
-              </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm hover:bg-gray-50"
-                onClick={() => setOpenDropdown(null)}
-              >
-                Agent Signup
-              </a>
+          {openDropdown === "agents" && (
+            <div className="absolute top-[120%] right-0 w-[150px] p-2 bg-white shadow-2xl rounded-2xl border border-gray-100 py-2 z-50">
+              <Link to="/agent-login" className="block px-4 py-2 rounded-xl  text-[13px] hover:bg-gray-200">Login</Link>
+              <Link to="/agent-signup" className="block px-4 py-2 rounded-xl  text-[13px] text-gray-700 hover:bg-gray-200">Signup</Link>
             </div>
           )}
         </div>
 
-        {/*<============================== Customers Dropdown ========================> */}
+        {/* Customer */}
         <div className="relative">
-          <button
-            onClick={() =>
-              setOpenDropdown(openDropdown === 'customer' ? null : 'customer')
-            }
-            className="flex items-center gap-2 px-4 py-2 border rounded-full border-gray-300 text-sm bg-gray-100 hover:bg-gray-200 "
+          <button 
+            onClick={() => setOpenDropdown(openDropdown === "customer" ? null : "customer")}
+            className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-[14px] transition-all border
+              ${openDropdown === "customer" ? "border-blue-400 bg-white text-blue-600" : "bg-gray-100 border-transparent text-gray-700 hover:border-blue-400 hover:bg-white hover:text-blue-600"}`}
           >
-            👤 Customer <ChevronDownIcon className="w-3 h-3 text-gray-600" />
+            <UserIcon /> Customer <HiChevronDown className="text-gray-400" />
           </button>
-
-          {openDropdown === 'customer' && (
-            <div className="absolute top-full right-0 mt-2 w-44 bg-white border border-gray-100 shadow-xl rounded-xl overflow-hidden py-1">
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm hover:bg-gray-50 font-medium text-blue-600 border-b border-gray-50"
-                onClick={() => setOpenDropdown(null)}
-              >
-                Login
-              </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm hover:bg-gray-50"
-                onClick={() => setOpenDropdown(null)}
-              >
-                Register
-              </a>
+          {openDropdown === "customer" && (
+            <div className="absolute top-[120%] p-2 right-0 w-[150px] bg-white shadow-2xl rounded-2xl border border-gray-100 py-2 z-50">
+              <Link to="/login" className="block px-4 py-2 rounded-xl text-[13px] hover:bg-gray-200">Login</Link>
+              <Link to="/signup" className="block px-4 py-2 rounded-xl text-[13px] text-gray-700 hover:bg-gray-200">Signup</Link>
             </div>
           )}
         </div>
@@ -228,6 +161,5 @@ const Navbar = () => {
     </nav>
   );
 };
-
 
 export default Navbar;

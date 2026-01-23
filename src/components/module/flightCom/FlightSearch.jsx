@@ -17,42 +17,36 @@ const FlightSearch = () => {
     const [activeTab, setActiveTab] = useState("Flights");
 
     return (
-        <div className="w-full max-w-6xl mx-auto">
-            
-            {/* Search Bar hotel ================================================== */}
-            <ul className="flex flex-wrap items-center justify-center gap-1 bg-white/10 backdrop-blur-medium py-2 rounded-full border border-white/20 shadow-xl max-w-2xl mx-auto">
-                {myFlightSearch.map((item) => {
-                    const isActive = activeTab === item.moduleName;
-                    return (
-                        <li key={item.id}
-                        >
-                            
-                            <button
-                        
-                                onClick={() => setActiveTab(item.moduleName)}
-                                className={`px-7 py-4 rounded-full font-bold flex items-center gap-2 transition-all duration-300 active:scale-95 text-sm md:text-base
-                                    ${isActive ? "bg-white text-black shadow-md" : "bg-transparent text-white hover:bg-white/5"}`}
-                            >
-                                <span className={`${isActive ? "hover:bg-white/5" : "text-white"}`}>
-                                   {item.icon}
-                               </span>
-                                {item.moduleName}
-                                
-                            </button>
-                        </li>
-                    );
-                })}
-            </ul>
-
-            <div>
-                {activeTab === "Flights" && <Flight />}
-                {activeTab === "Hotels" && <HotelForm />}
-                {activeTab === "Tours" && <ToursForm />}
-                {activeTab === "Cars" && <CarsForm />}
-                {activeTab === "Visa" && <VisaForm />}
-            </div>
-        </div>
+        <div className="w-full max-w-6xl mx-auto flex flex-col items-center">
     
+    {/* Search Bar Tabs */}
+    <ul className="flex flex-wrap gap-1 bg-white/10 backdrop-blur-md py-2.5 px-2.5 rounded-full border border-white/20 shadow-xl max-w-fit mx-auto relative z-10">
+        {myFlightSearch.map((item) => {
+            const isActive = activeTab === item.moduleName;
+            return (
+                <li key={item.id}>
+                    <button
+                        onClick={() => setActiveTab(item.moduleName)}
+                        className={`px-6 py-4 rounded-full font-bold flex items-center gap-2 transition-all duration-300 active:scale-95 text-sm
+                            ${isActive ? "bg-white text-black shadow-md" : "bg-transparent text-white hover:bg-white/10"}`}
+                    >
+                        <span className="text-lg">{item.icon}</span>
+                        {item.moduleName}
+                    </button>
+                </li>
+            );
+        })}
+    </ul>
+
+    {/* Form Section - Negative margin added to pull it UP */}
+    <div className="w-full -mt-4 relative z-0"> 
+        {activeTab === "Flights" && <Flight />}
+        {activeTab === "Hotels" && <HotelForm />}
+        {activeTab === "Tours" && <ToursForm />}
+        {activeTab === "Cars" && <CarsForm />}
+        {activeTab === "Visa" && <VisaForm />}
+    </div>
+</div>
     );
 }
 
