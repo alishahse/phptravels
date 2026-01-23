@@ -202,9 +202,9 @@ const Flight = () => {
             {isDropdownOpen && (
               <div className="absolute top-[110%] right-0 w-72 bg-white shadow-2xl rounded-2xl p-5 z-50 border border-gray-100 ring-1 ring-black ring-opacity-5">
                 <TravelerRow label="Adults" sub="+12 Year" count={formData.travelers.adults} onInc={() => updateCount('adults', 'inc')} onDec={() => updateCount('adults', 'dec')} />
-                <div className="h-[1px] bg-gray-100 my-3"></div>
+                <div className="h-1 bg-gray-100 my-3"></div>
                 <TravelerRow label="Childs" sub="2 - 11 Year" count={formData.travelers.child} onInc={() => updateCount('child', 'inc')} onDec={() => updateCount('child', 'dec')} />
-                <div className="h-[1px] bg-gray-100 my-3"></div>
+                <div className="h-1 bg-gray-100 my-3"></div>
                 <TravelerRow label="Infants" sub="-2 Year" count={formData.travelers.infants} onInc={() => updateCount('infants', 'inc')} onDec={() => updateCount('infants', 'dec')} />
               </div>
             )}
