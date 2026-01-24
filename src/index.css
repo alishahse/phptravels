@@ -1,10 +1,5 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-*{
-  /* margin: 0;
-  padding: 0;
-  box-sizing: border-box; */
-}
 
 body {
   font-family: 'Inter', sans-serif;
@@ -13,14 +8,5 @@ body {
 
 html, body, #root {
   width: 100%;
-  overflow-x: hidden; /* Side scroll bar ko khatam karne ke liye */
+  overflow-x: hidden;
 }
-/* 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-}
-
-input[type="date"] {
-  -webkit-appearance: none;
-  appearance: none;
-} */

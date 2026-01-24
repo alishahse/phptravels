@@ -121,7 +121,7 @@ const HotelForm = () => {
   };
 
   return (
-    <div className="w-full min-h-[15vh] flex flex-col items-center justify-start px-4 mt-3 relative z-40">
+    <div className="mx-auto relative z-30 mt-10 max-w-7xl px-4">
       <div className="w-full max-w-7xl bg-white shadow-md rounded-md p-5 border border-gray-100">
         <form
           onSubmit={handleSearch}

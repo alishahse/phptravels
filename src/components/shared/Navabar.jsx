@@ -54,7 +54,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="flex items-center justify-around px-4 py-5 bg-white sticky top-0 z-100 border-b border-gray-100 shadow-sm">
+    <nav className="flex items-center justify-around px-4 py-5 bg-white sticky top-0 z-[100] border-b border-gray-100 shadow-sm">
       {/* Left Side: Logo & Nav */}
       <div className="flex items-center gap-6">
         <Link to="/">
@@ -71,7 +71,7 @@ const Navbar = () => {
       </Link>
 
       {/* Bottom border */}
-      <span className="absolute left-0 -bottom-[7.25] h-[0.75] w-0 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+      <span className="absolute left-0 -bottom-[29px] h-[3px] w-0 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
     </li>
   ))}
 </ul>
@@ -85,7 +85,7 @@ const Navbar = () => {
         <div className="relative">
           <button
             onClick={() => setOpenDropdown(openDropdown === "lang" ? null : "lang")}
-            className="flex items-center gap-1.5 px-4 py-1.5 border border-gray-200 rounded-full text-[14px] text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-all min-w-[27.5]"
+            className="flex items-center gap-1.5 px-4 py-1.5 border border-gray-200 rounded-full text-[14px] text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-all min-w-[110px]"
           >
             <img src={`https://flagcdn.com/w20/${selectedLang.code}.png`} alt="" className="w-4.5 h-3.5 object-cover rounded-[1px]" />
             {selectedLang.name}
@@ -150,7 +150,7 @@ const Navbar = () => {
             <UserIcon /> Customer <HiChevronDown className="text-gray-400" />
           </button>
           {openDropdown === "customer" && (
-            <div className="absolute top-[120%] p-2 right-0 w-[37.25] bg-white shadow-2xl rounded-2xl border border-gray-100 py-2 z-50">
+            <div className="absolute top-[120%] p-2 right-0 w-[150px] bg-white shadow-2xl rounded-2xl border border-gray-100 py-2 z-50">
               <Link to="/login" className="block px-4 py-2 rounded-xl text-[13px] hover:bg-gray-200">Login</Link>
               <Link to="/signup" className="block px-4 py-2 rounded-xl text-[13px] text-gray-700 hover:bg-gray-200">Signup</Link>
             </div>
